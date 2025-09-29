@@ -62,6 +62,13 @@ $ source venv/bin/activate
 $ deactivate
 ```
 
+It is worth adding a `.gitignore` file to the project folder to prevent the `venv` folder being added to version control.
+
+```
+venv/
+.venv/
+```
+
 When the virtual environment has been created, this will generate a `venv` folder in the project folder.
 
 Once activated, the shell should read something like: `(venv) danieljackson@CH-MBP-DW12345678 flask`.
@@ -73,6 +80,18 @@ $ pip3 install Flask
 
 # Once installed, verify the version. Lists out what is installed
 $ python3 -m flask --version
+```
+
+We can also export our dependencies and create an `requirements.txt` file so other developers can replicate the environment:
+
+```shell
+$ pip3 freeze > requirements.txt
+```
+
+The dependencies can then be installed using this `requirements.txt` file:
+
+```shell
+$ pip install -r requirements.txt
 ```
 
 #### Hello World
