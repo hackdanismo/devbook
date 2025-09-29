@@ -4,6 +4,7 @@ A collection of developer notes, snippets and code examples.
 + [Python](#python)
   + [Flask](#flask)
     + [Hello World](#hello-world)
+    + [Route](#route)
     + [Connect Flask to SQLite](#connect-flask-to-sqlite)
 + [Database](#database)
   + [SQLite](#sqlite)
@@ -87,6 +88,17 @@ $ python3 app.py
 ```
 
 The app should be running and can be viewed here: `http://127.0.0.1:5000/` in the browser.
+
+#### Route
+In `Flask`, a `route` is a URL path that tells Flask how to handle. Routes are created using the `@app.route()` decorator above a function. That function is called and runs whenever a user visits the route.
+
+The following route would return: `This is the about page` if the user visits: `http://127.0.0.1:5000/about`
+
+```python
+@app.route("/about")
+def about():
+  return "This is the about page"
+```
 
 #### Connect Flask to SQLite
 Begin by setting up the `SQLite` database in these steps: [SQLite](#sqlite). Once done, move onto the next section.
