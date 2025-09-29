@@ -192,6 +192,77 @@ $ python3 app.py
 #### ORM
 `Flask` itself doesn't ship with an `ORM (Object Relational Mapper)` - `Prisma` is an example of an `ORM` used in `JavaScript` - but Flask works very well with `SQLAlchemy` which is a popular `Python` `ORM`. With `SQLAlchemy` `Python` classes are defined instead of writing raw `SQL` to connect and work with databases. `Flask` also has an official extension, `Flask-SQLAlchemy`, that makes using `SQLAlchemy` even easier and this allows connections to: `SQLite`, `MySQL`, `PostgreSQL` and many more databases.
 
+Begin by installing the relevant packages:
+
+```shell
+$ pip3 install flask-sqlalchemy
+# Optional but recommended for migration later
+$ pip3 install Flask-Migrate
+```
+
+We can then update our `app.py` code to use the `ORM` or `SQLAlchemy` to connect to the `SQLite` database rather than having to use raw `SQL` queries.
+
+```python
+# Import the Flask class from the flask package
+from flask import Flask
+# Import the SQLAlchemy package to connect to the SQLite database using the ORM
+from flask_sqlalchemy import SQLAlchemy
+from pathlib import Path
+
+# Create an instance of the Flask application
+# __name__ tells Flask where to look to resources (like: templates, static files)
+app = Flask(__name__)
+
+# Anchor the SQLite file to this file's directory to avoid "accidental new DB"
+BASE_DIR = Path(__file__).resolve().parent
+# SQLAlchemy config: points to the dev.db SQLite database in the current folder
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{BASE_DIR / 'dev.db'}"
+# SQLAlchemy config: disables an event system to save overheads
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db = SQLAlchemy(app)
+
+# ORM model(s)
+class Test(db.Model):
+    # Matches the existing table name
+    __tablename__ = "test"
+    # Adjust if the schema differs. Creates the id field in the database table
+    id = db.Column(db.Integer, primary_key=True)
+    # Adjust if the schema differs. Creates the name field in the databse table
+    name = db.Column(db.String, nullable=False)
+
+    def __repr__(self):
+        return f"<Test id={self.id} name={self.name!r}>"
+
+# Define a route: when a user visits "/" (root URL), run the function below
+@app.route("/")
+def home():
+    # Fetch all rows from an SQLite database table called "test" using the ORM
+    users = Test.query.all()
+    # Display the data from inside the table in plain text (as a test)
+    return "<br>".join([u.name for u in users])
+
+# Run the app only if the script is executed directly
+if __name__ == "__main__":
+    # Create tables if they do no exust yet (safe to run repeatedly)
+    with app.app_context():
+        # Runs inside an app context before the server starts so database is present when the route runs
+        db.create_all()
+
+        # Helpful: print the actual DB file being used
+        print("Using DB:", db.engine.url.database)
+
+    # Start the development server with debugging enabled
+    # Debut mode gives helpful error messsages and auto-reloads on changes
+    app.run(debug=True)
+```
+
+Run this code as before using to open the running server here: `http://127.0.0.1:5000/` and listing out the data contained within the database:
+
+```shell
+$ python3 app.py
+```
+
 #### Create Database
 Once `SQLite` is installed, create a database in the current folder, if it doesn't exist. A prompt will then appear:
 
