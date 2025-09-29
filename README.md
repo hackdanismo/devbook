@@ -72,7 +72,7 @@ Once this is done, install `Flask`:
 $ pip3 install Flask
 
 # Once installed, verify the version. Lists out what is installed
-$ python -m flask --version
+$ python3 -m flask --version
 ```
 
 #### Hello World
