@@ -8,7 +8,9 @@ A collection of developer notes, snippets and code examples.
     + [Connect Flask to SQLite](#connect-flask-to-sqlite)
 + [Database](#database)
   + [SQLite](#sqlite)
+    + [ORM](#orm)
     + [Create Database](#create-database)
+    + [Create Database Table](#create-database-table)
  
 ## Python
 
@@ -152,6 +154,9 @@ $ python3 app.py
 
 ### SQLite
 
+#### ORM
+`Flask` itself doesn't ship with an `ORM (Object Relational Mapper)` - `Prisma` is an example of an `ORM` used in `JavaScript` - but Flask works very well with `SQLAlchemy` which is a popular `Python` `ORM`. With `SQLAlchemy` `Python` classes are defined instead of writing raw `SQL` to connect and work with databases. `Flask` also has an official extension, `Flask-SQLAlchemy`, that makes using `SQLAlchemy` even easier and this allows connections to: `SQLite`, `MySQL`, `PostgreSQL` and many more databases.
+
 #### Create Database
 Once `SQLite` is installed, create a database in the current folder, if it doesn't exist. A prompt will then appear:
 
@@ -166,7 +171,7 @@ $ sqlite3 app.db
 $ .exit
 ```
 
-### Create Database Table
+#### Create Database Table
 Once the database has been created, we need to create a database table and add initial content. We use `SQL (Structured Query Language)` for this. Paste this into the terminal when the `sqlite` prompt appears:
 
 ```sql
