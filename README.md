@@ -4,6 +4,10 @@ A collection of developer notes, snippets and code examples.
 + [Python](#python)
   + [Flask](#flask)
     + [Hello World](#hello-world)
+    + [Connect Flask to SQLite](#connect-flask-to-sqlite)
++ [Database](#database)
+  + [SQLite](#sqlite)
+    + [Create Database](#create-database)
  
 ## Python
 
@@ -83,3 +87,84 @@ $ python3 app.py
 ```
 
 The app should be running and can be viewed here: `http://127.0.0.1:5000/` in the browser.
+
+#### Connect Flask to SQLite
+Begin by setting up the `SQLite` database in these steps: [SQLite](#sqlite). Once done, move onto the next section.
+
+Update the `app.py` code from earlier to connect to the `SQLite` database:
+
+```python
+# Import the Flask class from the flask package
+from flask import Flask
+# Import the sqlite3 package to connect to SQLite databases
+import sqlite3
+
+# Create an instance of the Flask application
+# __name__ tells Flask where to look to resources (like: templates, static files)
+app = Flask(__name__)
+
+# A helper function to connect the the SQLite database
+def get_db_connection():
+    # Database file will be created if it doesn't already exist
+    conn = sqlite3.connect("app.db")
+    # Rows behave like dictionaries
+    conn.row_factory = sqlite3.Row
+    return conn
+
+# Define a route: when a user visits "/" (root URL), run the function below
+@app.route("/")
+def home():
+    # Fetch all rows from a SQLite database table called "users"
+    conn = get_db_connection()
+    users = conn.execute("SELECT * FROM users").fetchall()
+    # Close the connection to the database
+    conn.close()
+
+    # Display user names in plain text (as a test)
+    return "<br>".join([user["name"] for user in users])
+
+# Run the app only if the script is executed directly
+if __name__ == "__main__":
+    # Start the development server with debugging enabled
+    # Debug mode gives helpful error messages and auto-reloads on changes
+    app.run(debug=True)
+```
+
+Run the `app.py` file in the terminal and open the browser here to see the data from the `app.db` SQLite database being displayed: `http://127.0.0.1:5000/`
+
+```shell
+$ python3 app.py
+```
+
+## Database
+
+### SQLite
+
+#### Create Database
+Once `SQLite` is installed, create a database in the current folder, if it doesn't exist. A prompt will then appear:
+
+```shell
+# Check the SQLite is installed
+$ sqlite3 --version
+
+# Create a database named app.db
+$ sqlite3 app.db
+
+# Exit SQLite and exit the prompt in the terminal:
+$ .exit
+```
+
+### Create Database Table
+Once the database has been created, we need to create a database table and add initial content. We use `SQL (Structured Query Language)` for this. Paste this into the terminal when the `sqlite` prompt appears:
+
+```sql
+CREATE TABLE users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL
+);
+
+INSERT INTO users (name) VALUES ('Alice'), ('Bob'), ('Charlie');
+.exit
+```
+
+This should create an `app.db` file in the project folder.
