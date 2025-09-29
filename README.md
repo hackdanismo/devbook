@@ -2,6 +2,7 @@
 A collection of developer notes, snippets and code examples.
 
 + [Python](#python)
+  + [Functions](#functions)
   + [Flask](#flask)
     + [Hello World](#hello-world)
     + [Route](#route)
@@ -13,6 +14,21 @@ A collection of developer notes, snippets and code examples.
     + [Create Database Table](#create-database-table)
  
 ## Python
+
+### Functions
+A `function` in `Python` is a reusable block of code that performs a task.
+
+```python
+def function():
+  return "This is a function"
+
+# Call the function to execute the code
+function()
+```
+
++ `def` - a keyword to define a function
++ `function` - this is the name of the function, does not have to be "function", can be named whatever you wish
++ `return` - send back the value to where the function was called
 
 ### Flask
 We first need to check if `Python` and `pip` are installed. Open the terminal and enter the command:
