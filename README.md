@@ -1,6 +1,8 @@
 # DevBook
 A collection of developer notes, snippets and code examples.
 
++ [PHP](#php)
+  + [Connect to Database](#connect-to-database)
 + [Python](#python)
   + [Functions](#functions)
   + [Flask](#flask)
@@ -12,6 +14,41 @@ A collection of developer notes, snippets and code examples.
     + [ORM](#orm)
     + [Create Database](#create-database)
     + [Create Database Table](#create-database-table)
+   
+## PHP
+
+### Connect to Database
+We can connect to a `MySQL` database using `PHP`. This uses `PDO`:
+
+```php
+<?php
+$host = "localhost";
+// The name of the database
+$db = "your_database";
+// The database username  
+$user = "your_username";
+// The database password
+$pass = "your_password";
+$charset = "utf8mb4";
+
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+
+$options = [
+  // Throw exceptions on errors
+  PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+  // Fetch results as associative arrays
+  PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+  // Use native prepared statements if supported
+  PDO::ATTR_EMULATE_PREPARES => false, 
+];
+
+try {
+  $pdo = new PDO($dsn, $user, $pass, $options);
+  echo "Database connection successful.";
+} catch (\PDOException $e) {
+  echo "Connection failed: " . $e->getMessage();
+}
+```
  
 ## Python
 
