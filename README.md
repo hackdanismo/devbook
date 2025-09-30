@@ -3,6 +3,9 @@ A collection of developer notes, snippets and code examples.
 
 + [PHP](#php)
   + [Connect to Database](#connect-to-database)
++ [SQL](#sql)
+  + [Create a Database](#create-a-database)
+  + [Create a Database Table](#create-a-database-table)
 + [Python](#python)
   + [Functions](#functions)
   + [Flask](#flask)
@@ -48,6 +51,27 @@ try {
 } catch (\PDOException $e) {
   echo "Connection failed: " . $e->getMessage();
 }
+```
+
+## SQL
+
+### Create a Database
+To create a database in `MySQL` using `SQL`:
+
+```sql
+CREATE DATABASE database_name;
+```
+
+### Create a Database Table
+To create a database table in `MySQL` using `SQL`:
+
+```sql
+CREATE TABLE table_name (
+    column1 datatype constraints,
+    column2 datatype constraints,
+    column3 datatype constraints,
+    ...
+);
 ```
  
 ## Python
